@@ -24,7 +24,7 @@ import axios from 'axios';
 import { Dialog, DialogContent, DialogHeader, DialogFooter, DialogTitle } from "@/components/ui/dialog";
 
 export default function CalendarPage() {
-  const { profile, loading: profileLoading } = useUserProfile();
+  const { profile } = useUserProfile();
   const plan = profile?.plan || 'free';
   const [currentDate, setCurrentDate] = useState(new Date())
   // Debug: log currentDate whenever it changes
@@ -32,8 +32,8 @@ export default function CalendarPage() {
     console.log('[CalendarPage] currentDate:', currentDate.toISOString());
   }, [currentDate]);
   const [events, setEvents] = useState<CalendarEvent[]>([])
-  const [loadingEvents, setLoadingEvents] = useState<boolean>(true)
-  const [eventsError, setEventsError] = useState<string | null>(null)
+  const [, setLoadingEvents] = useState<boolean>(true)
+  const [, setEventsError] = useState<string | null>(null)
   const [view, setView] = useState<"month" | "week" | "day" | "list">("month")
   const [eventDialogOpen, setEventDialogOpen] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | undefined>(undefined)
@@ -338,6 +338,7 @@ export default function CalendarPage() {
         return ""
     }
   }
+  void getViewTitle;
 
   return (
     <DashboardShell>
@@ -537,7 +538,7 @@ export default function CalendarPage() {
         onOpenChange={setEventDialogOpen}
         event={selectedEvent}
         onSave={handleSaveEvent}
-        onDelete={handleRequestDeleteEvent}
+        onDelete={selectedEvent ? () => handleRequestDeleteEvent(selectedEvent) : undefined}
         savedEvents={savedEvents}
         loadingSaved={loadingSaved}
         savedError={savedError}

@@ -44,11 +44,10 @@ export function TicketSalesChart({ data }: TicketSalesChartProps) {
     };
   });
 
-  const revenueCategories = ["Total Revenue"]; // Define the category
 
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <BarChart 
+      <BarChart
         data={processedData}
         margin={{ top: 10, right: 30, left: 20, bottom: 5 }}
       >

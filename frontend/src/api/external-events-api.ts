@@ -31,6 +31,9 @@ export interface ExternalEventCard {
   price?: string; // Main price (minimum from tickets)
   startDate?: string; // Added for discover page filters
   endDate?: string;   // Added for discover page filters
+  organizer_name?: string; // Added for detail-page parity with the internal Event type
+  organizer_image?: string;
+  time?: string; // Optional end/start time display (internal events only)
 }
 
 export interface TicketType {
@@ -116,6 +119,8 @@ function normalizeTicketmasterEvent(event: any): ExternalEventCard {
     rating: event.ratingAverage || event.rating || undefined,
     comments: [],
     source: 'Ticketmaster',
+    ticketTypes: [], // Ticketmaster price ranges are fetched separately via fetchTicketmasterTicketTypes
+    totalReviews: 0, // Not provided by the Ticketmaster Discovery API
   };
 }
 

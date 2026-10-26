@@ -3,10 +3,11 @@ import { Filter, Search, Star, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import type { Event as AppEvent } from "../../../pages/organizer/event-api"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
 interface ReviewFiltersProps {
-  events: Event[]
+  events: AppEvent[]
   filters: {
     event: string
     rating: string
@@ -77,7 +78,7 @@ export function ReviewFilters({ events, filters, setFilters }: ReviewFiltersProp
                 <SelectItem value="all">All Events</SelectItem>
                 {events.map((event) => (
                   <SelectItem key={event.id} value={event.id}>
-                    {event.name}
+                    {event.title}
                   </SelectItem>
                 ))}
               </SelectContent>

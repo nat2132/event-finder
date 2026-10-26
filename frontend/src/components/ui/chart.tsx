@@ -79,12 +79,12 @@ interface DonutChartProps {
   className?: string
 }
 
-export function DonutChart({ data = [], index, categories = [], colors = [], valueFormatter, className }: DonutChartProps) {
+export function DonutChart({ data = [], colors = [], valueFormatter, className }: DonutChartProps) {
   return (
     <ResponsiveContainer width="100%" height="100%" className={className}>
       <RechartsPieChart>
         <Pie dataKey="value" data={data} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} label>
-          {data.map((entry, index) => (
+          {data.map((_entry, index) => (
             <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
           ))}
         </Pie>

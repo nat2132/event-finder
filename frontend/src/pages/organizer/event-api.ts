@@ -27,6 +27,7 @@ export interface Creator {
 export interface Comment {
   id: string;
   user: {
+    id?: string;
     name: string;
     avatar?: string;
   };
@@ -52,6 +53,11 @@ export interface Event {
   creator?: Creator;
   organizer_name?: string;
   organizer_image?: string;
+  status?: string; // e.g. "Completed" / undefined = upcoming
+  attendees?: number; // attendee count (optional, not always returned)
+  type?: string; // external events expose a venue/event type
+  totalReviews?: number; // total review count (when provided by backend)
+  source?: string; // "Skiddle" | "Ticketmaster" for external events
   startDate?: string; // Added for discover page filters
   endDate?: string;   // Added for discover page filters
   start_time?: string; // Added for date formatting

@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode, useRef, cloneElement, isValidElement } from "react";
+import React, { createContext, useContext, useState, useEffect, useRef, cloneElement, isValidElement } from "react";
+import type { ReactNode } from "react";
 import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
 import Cookies from "js-cookie";
@@ -59,9 +60,12 @@ export const TranslatedAttributeRenderer: React.FC<{
   if (!isValidElement(elementToRender)) {
     return elementToRender; 
   }
-  // Note: The "Spread types..." linter error might appear here in projects with strict linting
+  // Note: props merging via cloneElement; original props are preserved.
   // This is a common pattern for forwarding props and is generally considered safe.
-  return cloneElement(elementToRender, { ...elementToRender.props, ...rest });
+  return cloneElement(elementToRender, {
+    ...(elementToRender.props as Record<string, unknown>),
+    ...rest,
+  });
 };
 
 export const TranslationProvider = ({ children }: { children: ReactNode }) => {

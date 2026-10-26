@@ -43,7 +43,7 @@ interface User {
   profile_image?: string;
   plan: 'free' | 'pro' | 'organizer' | string; // Allow string for potential other values
   user_type: 'user' | 'admin';
-  admin_role?: 'super_admin' | 'event_admin' | 'support_admin';
+  admin_role?: 'super_admin' | 'event_admin' | 'support_admin' | null;
   created_at: string;
   status: string;
   is_active?: boolean; // Add for deactivation support
@@ -67,12 +67,12 @@ export default function UsersPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [count, setCount] = useState(0);
-  const [nextPageUrl, setNextPageUrl] = useState<string | null>(null);
-  const [prevPageUrl, setPrevPageUrl] = useState<string | null>(null);
+  const [, setNextPageUrl] = useState<string | null>(null);
+  const [, setPrevPageUrl] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [pageSize, setPageSize] = useState(10);
+  const [, setStatusFilter] = useState<string>("all");
+  const [pageSize] = useState(10);
   const [searchPlaceholder, setSearchPlaceholder] = useState("Search users...");
 
   // State for modals
@@ -83,16 +83,16 @@ export default function UsersPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false); // State for Add User modal
 
   // Debounce search input
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
+  const [debouncedSearchTerm] = useState(searchTerm);
 
-  // State for Add User Modal
-  const [formData, setFormData] = useState<Partial<User> & { password?: string }>({});
+  // State for Add User Modal (kept for future editing workflows)
 
   const isSuperAdmin = profile?.admin_role === 'super_admin';
   const isEventAdmin = profile?.admin_role === 'event_admin';
   const isSupportAdmin = profile?.admin_role === 'support_admin';
   const canManageUsers = isSuperAdmin || isEventAdmin || isSupportAdmin;
   const canViewUsers = isSuperAdmin || isEventAdmin || isSupportAdmin;
+  void canViewUsers;
 
   // fetchData definition MUST come before the useEffect that calls it.
   const fetchData = useCallback(async (page: number, search: string, status: string | null) => {
@@ -174,10 +174,6 @@ export default function UsersPage() {
     if (type === 'delete') setIsDeleteModalOpen(true);
   };
 
-  const openAddModal = () => {
-      setIsAddModalOpen(true);
-  };
-
   const closeModal = () => {
     setSelectedUser(null);
     setIsViewModalOpen(false);
@@ -205,9 +201,6 @@ export default function UsersPage() {
     closeModal();
   };
   // --- End Modal Handlers ---
-
-  // Determine permissions based on role
-  const canManageAdmins = !profileLoading && profile?.admin_role === 'super_admin';
 
   return (
     <AdminLayout>
@@ -331,7 +324,7 @@ interface UserTableProps {
   currentUserAdminRole?: string;
 }
 
-function UserTable({ users, onViewDetails, onEditUser, onDeleteUser, canManage, currentUserAdminRole }: UserTableProps) {
+function UserTable({ users, onViewDetails, onEditUser, onDeleteUser, canManage }: UserTableProps) {
   if (users.length === 0) {
     return (
       <div className="flex items-center justify-center h-40 border rounded-md">

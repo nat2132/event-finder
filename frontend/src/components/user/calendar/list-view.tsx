@@ -16,7 +16,7 @@ interface ListViewProps {
   className?: string
 }
 
-export function ListView({ events, currentDate, onEventClick, className }: ListViewProps) {
+export function ListView({ events, onEventClick, className }: ListViewProps) {
   // Sort events by date
   const sortedEvents = [...events].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
 

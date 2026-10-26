@@ -2,6 +2,7 @@ import { useMemo } from "react"
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
 import { Star } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import type { Review } from "./review-types"
 
 interface ReviewStatsProps {
   reviews: Review[]

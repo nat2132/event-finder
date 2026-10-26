@@ -11,7 +11,6 @@ interface DayViewProps {
 }
 
 const HOUR_HEIGHT = 100;
-const HOUR_START = 6;
 
 export function DayView({ events, currentDate, onEventClick, className }: DayViewProps) {
     const hours = Array.from({ length: 24 }, (_, i) => i);

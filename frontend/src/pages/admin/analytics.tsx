@@ -75,7 +75,7 @@ export default function AnalyticsPage() {
 
   // State for fetched data
   const [planData, setPlanData] = useState<PlanData[]>([]);
-  const [topEvents, setTopEvents] = useState<TopEvent[]>([]);
+  const [, setTopEvents] = useState<TopEvent[]>([]);
   const [revenueData, setRevenueData] = useState<RevenueDataEntry[]>([]); // For Ticket Sales Chart
   const [userSignupData, setUserSignupData] = useState<ProcessedSignupData[]>([]); // For User Activity Chart
 

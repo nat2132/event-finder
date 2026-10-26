@@ -45,27 +45,6 @@ export default function MyEventsPage() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  // Handler to update ticket counts after purchase
-  const handleTicketsPurchased = (selectedTickets: { [key: string]: number }) => {
-    if (!selectedEvent) return;
-    setEvents((prevEvents) =>
-      prevEvents.map((ev) => {
-        if (ev.id !== selectedEvent.id) return ev;
-        // Update ticketTypes quantities
-        const updatedTicketTypes = ev.ticketTypes.map((tt) => {
-          // Use ticket name as key for selectedTickets
-          const purchased = selectedTickets[tt.name] || 0;
-          // Ensure quantity is string as per Event type
-          return {
-            ...tt,
-            quantity: String(Math.max(Number(tt.quantity) - purchased, 0)),
-          };
-        });
-        return { ...ev, ticketTypes: updatedTicketTypes };
-      })
-    );
-  };
-
   function normalizeEvent(event: EventType): EventDisplay {
     return {
       ...event,
@@ -452,7 +431,8 @@ export default function MyEventsPage() {
                   // Refresh events
                   const token2 = localStorage.getItem('token') || undefined;
                   const data = await fetchEvents(token2);
-                  setEvents(data.map(normalizeEvent));
+                  const eventsData = data.results || data;
+                  setEvents(eventsData.map(normalizeEvent));
                 } catch (err) {
                   toast({ title: "Delete failed", description: "Could not delete event.", variant: "destructive" });
                 } finally {

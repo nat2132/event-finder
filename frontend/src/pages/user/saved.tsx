@@ -5,31 +5,6 @@ import { DashboardShell } from "@/components/user/dashboard-shell"
 import { fetchSavedEvents } from "@/api/saved-events"
 import { useAuth } from "@clerk/clerk-react"
 
-// Define a type for event data to avoid 'any'
-interface EventData {
-  id: string;
-  title: string;
-  description: string;
-  image?: string;
-  date: string;
-  location: string;
-  category: string;
-  creator?: { name?: string; avatar?: string };
-  organizer_name?: string;
-  organizer_avatar?: string;
-  rating?: number;
-  comments?: Array<Comment>;
-  source?: string;
-}
-
-// Define a type for comment data
-interface Comment {
-  id: string;
-  user: string;
-  text: string;
-  date?: string;
-  rating?: number;
-}
 
 export default function SavedPage() {
   const [savedEvents, setSavedEvents] = useState<any[]>([])

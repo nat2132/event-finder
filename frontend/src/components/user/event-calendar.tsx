@@ -19,13 +19,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
-interface CalendarEvent {
-  id: string
-  title: string
-  date: Date
-  category: string
-}
-
+import type { CalendarEvent } from "@/lib/calendar"
 import { Pencil, Trash2 } from "lucide-react"
 
 interface EventCalendarProps {
@@ -48,37 +42,37 @@ export function EventCalendar({ events = [], className, onEditEvent, onDeleteEve
           {
             id: "1",
             title: "Addis Jazz Festival",
-            date: new Date(2025, 4, 15), // May 15, 2024
+            date: "2025-05-15", // May 15, 2025
             category: "Music",
           },
           {
             id: "2",
             title: "Ethiopian Coffee Ceremony",
-            date: new Date(2024, 5, 10), // June 10, 2024
+            date: "2024-06-10", // June 10, 2024
             category: "Cultural",
           },
           {
             id: "3",
             title: "Lalibela Rock Churches Tour",
-            date: new Date(2024, 6, 5), // July 5, 2024
+            date: "2024-07-05", // July 5, 2024
             category: "Tour",
           },
           {
             id: "4",
             title: "Meskel Festival",
-            date: new Date(2024, 8, 27), // September 27, 2024
+            date: "2024-09-27", // September 27, 2024
             category: "Cultural",
           },
           {
             id: "5",
             title: "Great Ethiopian Run",
-            date: new Date(2024, 10, 20), // November 20, 2024
+            date: "2024-11-20", // November 20, 2024
             category: "Sports",
           },
           {
             id: "6",
             title: "Timket Celebration",
-            date: new Date(2025, 0, 19), // January 19, 2025
+            date: "2025-01-19", // January 19, 2025
             category: "Cultural",
           },
         ]

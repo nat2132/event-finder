@@ -9,6 +9,12 @@ export interface OrganizerDashboardStats {
     ticketSales: { name: string; sales: number }[];
     revenue: { name: string; revenue: number }[];
     attendance: { name: string; value: number }[];
+    /** Per-event breakdown (returned by /api/organizer/dashboard-stats/) */
+    events: {
+      id: number | string;
+      name: string;
+      ticketTypes: { name: string; price: number; sold: number; total: number; revenue: number }[];
+    }[];
   };
 }
 

@@ -1,14 +1,18 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { ReviewCard } from "./review-card"
 import { Skeleton } from "@/components/ui/skeleton"
+import type { Review } from "./review-types"
+import type { Event as AppEvent } from "../../../pages/organizer/event-api"
 
 interface ReviewListProps {
   reviews: Review[]
-  events: Event[]
+  events: AppEvent[]
   isLoading: boolean
   onRespond: (reviewId: string, response: string) => void
   onEditResponse: (reviewId: string, responseId: string, newContent: string) => void
   onDeleteResponse: (reviewId: string, responseId: string) => void
+  /** Provided by the dashboard but handled internally via the reply endpoints */
+  onDeleteOrganizerReply?: (reviewId: string) => void
 }
 
 export function ReviewList({

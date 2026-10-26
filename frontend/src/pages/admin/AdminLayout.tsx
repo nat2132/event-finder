@@ -11,7 +11,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <ThemeProvider theme={{ mode: 'light' }}>
+    <ThemeProvider defaultTheme="light">
       <div className="flex h-screen overflow-hidden">
         <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
         <div className={cn(

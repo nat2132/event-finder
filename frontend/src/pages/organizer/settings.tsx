@@ -2,7 +2,7 @@ import { useState } from "react"
 import React from 'react';
 import { T, useTranslation } from "@/context/translation";
 import { motion } from "framer-motion"
-import { CreditCard, Globe, Mail, User, Check, Bell } from "lucide-react"
+import { CreditCard, Globe, User, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -10,7 +10,6 @@ import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
-import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { DashboardLayout } from "@/components/organizer/dashboard-layout"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -25,8 +24,8 @@ import type { BillingRecord } from "./billing-history";
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("account");
-  const { profile, loading, error, refetch } = useBackendUserProfile();
-  const { user, isLoaded } = useUser();
+  const { profile, refetch } = useBackendUserProfile();
+  const { user } = useUser();
   const { getToken } = useAuth();
 
   // Profile state
@@ -37,7 +36,6 @@ export default function SettingsPage() {
   const [profileImageUrl, setProfileImageUrl] = useState(profile?.profile_image || "");
 
   // Password visibility and focus state
-  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isCurrentPasswordFocused, setIsCurrentPasswordFocused] = useState(false);
@@ -167,15 +165,7 @@ export default function SettingsPage() {
     }
   };
 
-  // Profile image change handler
-  const handleProfileImageChange = (file: File | null) => {
-    setProfileImage(file);
-    if (file) {
-      setProfileImageUrl(URL.createObjectURL(file));
-    } else {
-      setProfileImageUrl("");
-    }
-  };
+  // Profile image change handler (kept in sync via the ProfileImageUpload onChange below)
 
   return (
     <DashboardLayout>

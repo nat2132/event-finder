@@ -18,6 +18,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Badge } from "@/components/ui/badge"
+import type { Review } from "./review-types"
 
 interface ReviewCardProps {
   review: Review

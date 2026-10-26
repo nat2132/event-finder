@@ -73,12 +73,12 @@ export default function EventsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [count, setCount] = useState(0);
-  const [nextPageUrl, setNextPageUrl] = useState<string | null>(null);
-  const [prevPageUrl, setPrevPageUrl] = useState<string | null>(null);
+  const [, setNextPageUrl] = useState<string | null>(null);
+  const [, setPrevPageUrl] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize] = useState(10);
   const [searchPlaceholder, setSearchPlaceholder] = useState("Search events...");
 
   // State for modals
@@ -92,9 +92,7 @@ export default function EventsPage() {
 
   const isSuperAdmin = profile?.admin_role === 'super_admin';
   const isEventAdmin = profile?.admin_role === 'event_admin';
-  const isSupportAdmin = profile?.admin_role === 'support_admin';
   const canManageEvents = isSuperAdmin || isEventAdmin;
-  const canViewEvents = isSuperAdmin || isEventAdmin || isSupportAdmin;
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -316,7 +314,7 @@ interface EventTableProps {
   currentUserAdminRole?: string;
 }
 
-function EventTable({ events, onViewDetails, onEditEvent, onDeleteEvent, canManage, currentUserAdminRole }: EventTableProps) {
+function EventTable({ events, onViewDetails, onEditEvent, onDeleteEvent, canManage }: EventTableProps) {
   if (events.length === 0) {
     return (
       <div className="flex items-center justify-center h-40 border rounded-md">
@@ -773,7 +771,7 @@ function DeleteEventConfirmationModal({ event, isOpen, onClose, onEventDelete }:
   const { getToken } = useAuth();
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { translate, language } = useTranslation(); // Added language for consistency
+  const { translate } = useTranslation(); // Added for consistency
 
   const handleDeleteConfirm = async () => {
     setIsDeleting(true);
@@ -980,7 +978,7 @@ function AddEventModal({ isOpen, onClose, onEventAdd }: AddEventModalProps) {
                 <div>
                   <h4 className="text-sm font-medium text-muted-foreground"><T>Status</T></h4>
                   <Badge variant="default">
-                    {addFormData.status.charAt(0).toUpperCase() + addFormData.status.slice(1)}
+                    {(addFormData.status ?? "").charAt(0).toUpperCase() + (addFormData.status ?? "").slice(1)}
                   </Badge>
                 </div>
               </div>

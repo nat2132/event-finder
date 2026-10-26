@@ -26,6 +26,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTranslation, T, TranslatedAttributeRenderer } from "@/context/translation";
+import type { SupportedLanguage } from "@/context/translation";
 
 // --- Type Definitions for Sidebar Items ---
 interface NavItem {

@@ -2,7 +2,7 @@ import { Users, Calendar, DollarSign } from "lucide-react"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
-import { T, useTranslation } from "@/context/translation";
+import { T } from "@/context/translation";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { RevenueChart } from "@/components/admin/dashboard/revenue-chart"

@@ -115,7 +115,7 @@ export default function TicketsPage() {
         
         console.log("Normalized tickets:", normalizedTickets);
         setTickets(normalizedTickets);
-      } catch (e: Error) {
+      } catch (e: any) {
         console.error("Error fetching tickets:", e);
         setError(e.message || "Failed to load tickets");
       } finally {

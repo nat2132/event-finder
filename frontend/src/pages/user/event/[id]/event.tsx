@@ -39,10 +39,10 @@ export default function EventDetailPage() {
     if (!id) return;
     setIsSubmitting(true);
     try {
-      const token = await getToken();
+      const token = (await getToken()) ?? "";
       const response = await updateEventComment(id, comment.id, comment.text, comment.rating, token);
       setComments(response.comments || []);
-      toast({ title: "Comment updated!", variant: "success" });
+      toast({ title: "Comment updated!", variant: "default" });
     } catch (err) {
       toast({ title: "Failed to update comment", description: "Please try again later.", variant: "destructive" });
     } finally {
@@ -55,10 +55,10 @@ export default function EventDetailPage() {
     if (!id) return;
     setIsSubmitting(true);
     try {
-      const token = await getToken();
+      const token = (await getToken()) ?? "";
       const response = await deleteEventComment(id!, comment.id, token);
       setComments(response.comments || []);
-      toast({ title: "Comment deleted!", variant: "success" });
+      toast({ title: "Comment deleted!", variant: "default" });
     } catch (err) {
       toast({ title: "Failed to delete comment", description: "Please try again later.", variant: "destructive" });
     } finally {
@@ -66,8 +66,7 @@ export default function EventDetailPage() {
     }
   };
 
-  useEffect(() => {
-    async function loadEvent() {
+  const loadEvent = async () => {
       console.log('EventDetailPage loadEvent running, id:', id, 'location.search:', location.search);
       setLoading(true);
       setError(null);
@@ -83,10 +82,12 @@ export default function EventDetailPage() {
             // Get previous payment data from localStorage
             const pendingTicketData = localStorage.getItem(`pending_tickets_${id}`);
             console.log(`[DEBUG] Payment success! Found stored ticket data for event ${id}:`, pendingTicketData);
+            let ticketTotal = 0;
             
             if (pendingTicketData) {
-              const token = await getToken();
-              const ticketDetails = JSON.parse(pendingTicketData);
+              const token = (await getToken()) ?? "";
+              const ticketDetails: Record<string, unknown> = JSON.parse(pendingTicketData);
+              ticketTotal = Object.values(ticketDetails).reduce<number>((sum, qty) => sum + Number(qty), 0);
               console.log(`[DEBUG] Parsed ticket details:`, ticketDetails);
               
               // Create tickets in the user's account
@@ -182,13 +183,14 @@ export default function EventDetailPage() {
             // Create a purchase success notification
             try {
               const { createPurchaseSuccessNotification } = await import("@/api/notifications");
-              const totalTickets = Object.values(ticketDetails).reduce((sum, qty) => sum + Number(qty), 0);
+              const totalTickets = ticketTotal;
+              const notifyToken = (await getToken()) ?? "";
               
               // Make sure we have a valid numeric ID for the event
               const numericId = id && /^\d+$/.test(id) ? id : null;
               
               await createPurchaseSuccessNotification(
-                token,
+                notifyToken,
                 numericId || "unknown",
                 event?.title || "Event",
                 totalTickets
@@ -210,17 +212,17 @@ export default function EventDetailPage() {
         if (!source || source === 'manual') {
           // Internal event
           const token = await getToken();
-          const data = await fetchEventById(id!, token);
+          const data = await fetchEventById(id!, token || undefined);
           if (!data.creator && (data.organizer_name || data.organizer_image)) {
             data.creator = {
-              name: data.organizer_name,
+              name: data.organizer_name || "Event Organizer",
               avatar: data.organizer_image,
             };
           }
           console.log('Setting internal event:', data);
           setEvent(data);
           // Fetch comments from backend
-          const backendComments = await getEventComments(id!, token);
+          const backendComments = await getEventComments(id!, token || undefined);
           setComments(backendComments || []);
         } else if (source && id) {
           // External event
@@ -233,7 +235,7 @@ export default function EventDetailPage() {
               console.warn('External Skiddle event not found for id:', id);
             }
           } else if (source === 'Ticketmaster') {
-            externalEvent = await fetchTicketmasterEventById(id);
+            externalEvent = await fetchTicketmasterEventById(id) ?? undefined;
             console.log('Fetched Ticketmaster event:', externalEvent);
             if (!externalEvent) {
               console.warn('External Ticketmaster event not found for id:', id);
@@ -260,18 +262,18 @@ export default function EventDetailPage() {
         } else {
           // Internal event
           const token = await getToken();
-          const data = await fetchEventById(id!, token);
+          const data = await fetchEventById(id!, token || undefined);
           // Ensure creator object is present
           if (!data.creator && (data.organizer_name || data.organizer_image)) {
             data.creator = {
-              name: data.organizer_name,
+              name: data.organizer_name || "Event Organizer",
               avatar: data.organizer_image,
             };
           }
           console.log('Setting internal event:', data);
           setEvent(data);
           // Fetch comments from backend
-          const backendComments = await getEventComments(id!, token);
+          const backendComments = await getEventComments(id!, token || undefined);
           setComments(backendComments || []);
         }
       } catch (err) {
@@ -280,8 +282,11 @@ export default function EventDetailPage() {
       } finally {
         setLoading(false);
       }
-    }
+  };
+
+  useEffect(() => {
     if (id) loadEvent();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, getToken, location.search]);
 
   useEffect(() => {
@@ -294,7 +299,7 @@ export default function EventDetailPage() {
   const handleCommentSubmit = async (values: { text: string; rating: number }) => {
     setIsSubmitting(true);
     try {
-      const token = await getToken();
+      const token = (await getToken()) ?? "";
       const response = await postEventComment(id!, values.text, values.rating, token);
       setComments(response.comments || []);
       if (event) setEvent({ ...event, rating: response.rating });

@@ -354,7 +354,7 @@ export default function DiscoverPage() {
                           saved={typeof event.saved === 'boolean' ? event.saved : false}
                           rating={typeof event.rating === 'number' ? event.rating : 0}
                           comments={normalizeComments(event.comments)}
-                          source={"source" in event ? event.source : undefined}
+                          source={"source" in event ? (event.source as "Ticketmaster" | "Skiddle") : undefined}
                         />
                       ) : (
                         <EventCard
@@ -423,7 +423,7 @@ export default function DiscoverPage() {
                       saved={typeof event.saved === 'boolean' ? event.saved : false}
                       rating={typeof event.rating === 'number' ? event.rating : 0}
                       comments={normalizeComments(event.comments)}
-                      source={"source" in event ? event.source : undefined}
+                      source={"source" in event ? (event.source as "Ticketmaster" | "Skiddle") : undefined}
                     />
                     </BlurFade>
                   ))}
@@ -480,7 +480,7 @@ export default function DiscoverPage() {
                       saved={typeof event.saved === 'boolean' ? event.saved : false}
                       rating={typeof event.rating === 'number' ? event.rating : 0}
                       comments={normalizeComments(event.comments)}
-                      source={"source" in event ? event.source : undefined}
+                      source={"source" in event ? (event.source as "Ticketmaster" | "Skiddle") : undefined}
                     />
                     </BlurFade>
                   ))}
@@ -520,7 +520,7 @@ export default function DiscoverPage() {
                       saved={typeof event.saved === 'boolean' ? event.saved : false}
                       rating={typeof event.rating === 'number' ? event.rating : 0}
                       comments={normalizeComments(event.comments)}
-                      source={"source" in event ? event.source : undefined}
+                      source={"source" in event ? (event.source as "Ticketmaster" | "Skiddle") : undefined}
                     />
                     </BlurFade>
                   ))}
@@ -563,7 +563,7 @@ export default function DiscoverPage() {
                       saved={typeof event.saved === 'boolean' ? event.saved : false}
                       rating={typeof event.rating === 'number' ? event.rating : 0}
                       comments={normalizeComments(event.comments)}
-                      source={"source" in event ? event.source : undefined}
+                      source={"source" in event ? (event.source as "Ticketmaster" | "Skiddle") : undefined}
                     />
                     </BlurFade>
                   ))}
@@ -639,7 +639,7 @@ export default function DiscoverPage() {
                       saved={typeof event.saved === 'boolean' ? event.saved : false}
                       rating={typeof event.rating === 'number' ? event.rating : 0}
                       comments={normalizeComments(event.comments)}
-                      source={"source" in event ? event.source : undefined}
+                      source={"source" in event ? (event.source as "Ticketmaster" | "Skiddle") : undefined}
                     />
                     </BlurFade>
                   ))}

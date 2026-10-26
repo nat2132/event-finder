@@ -10,20 +10,7 @@ import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@clerk/clerk-react"
 import { fetchEvents } from "../../../pages/organizer/event-api"
 import type { Event } from "../../../pages/organizer/event-api"
-
-// Organizer review type
-interface Review {
-  id: string;
-  eventId: string;
-  eventTitle?: string;
-  userName: string;
-  userEmail?: string;
-  rating: number;
-  content: string;
-  createdAt: string;
-  responses?: { id: string; content: string; createdAt: string }[];
-  reply?: string;
-}
+import type { Review } from "./review-types"
 
 // Fetch reviews for the organizer
 async function fetchReviews(token: string): Promise<Review[]> {
@@ -38,9 +25,9 @@ async function fetchReviews(token: string): Promise<Review[]> {
 }
 
 // --- Additional: Delete organizer reply from backend ---
-async function deleteOrganizerReply(reviewId: string, getToken: () => Promise<string>, setReviews: any, setFilteredReviews: any, toast: any) {
+async function deleteOrganizerReply(reviewId: string, getToken: () => Promise<string | null>, setReviews: any, setFilteredReviews: any, toast: any) {
   try {
-    const jwt = await getToken();
+    const jwt = (await getToken()) ?? "";
     const res = await fetch(`/api/reviews/${reviewId}/reply/`, {
       method: "POST", // If backend supports DELETE or PATCH, change accordingly
       headers: {
@@ -94,7 +81,7 @@ export function ReviewDashboard() {
     const loadData = async () => {
       try {
         setIsLoading(true)
-        const jwt = await getToken();
+        const jwt = (await getToken()) ?? "";
         const [reviewsData, eventsResponse] = await Promise.all([
           fetchReviews(jwt),
           fetchEvents(jwt)
@@ -156,7 +143,9 @@ export function ReviewDashboard() {
     if (filters.searchQuery) {
       const query = filters.searchQuery.toLowerCase()
       result = result.filter(
-        (review) => review.content.toLowerCase().includes(query) || review.userName.toLowerCase().includes(query),
+        (review) =>
+          review.content.toLowerCase().includes(query) ||
+          String(typeof review.userName === "string" ? review.userName : review.userName?.name ?? "").toLowerCase().includes(query),
       )
     }
 
@@ -213,7 +202,7 @@ export function ReviewDashboard() {
 
     // --- POST reply to backend ---
     try {
-      const jwt = await getToken();
+      const jwt = (await getToken()) ?? "";
       const res = await fetch(`/api/reviews/${reviewId}/reply/`, {
         method: "POST",
         headers: {
@@ -274,7 +263,7 @@ export function ReviewDashboard() {
 
     // --- PATCH reply to backend ---
     try {
-      const jwt = await getToken();
+      const jwt = (await getToken()) ?? "";
       // PATCH the reply (update)
       const res = await fetch(`/api/reviews/${reviewId}/reply/`, {
         method: "POST", // If your backend supports PATCH for reply, change to PATCH
@@ -324,7 +313,7 @@ export function ReviewDashboard() {
 
     // --- DELETE reply in backend (simulate by setting reply to empty string) ---
     try {
-      const jwt = await getToken();
+      const jwt = (await getToken()) ?? "";
       // Set reply to empty string to 'delete' it
       const res = await fetch(`/api/reviews/${reviewId}/reply/`, {
         method: "POST", // If your backend supports DELETE or PATCH, use that

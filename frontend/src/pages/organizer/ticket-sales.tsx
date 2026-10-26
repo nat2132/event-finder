@@ -217,7 +217,7 @@ export default function TicketSalesPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {ticketTypes.map((ticket, idx: number) => (
+                {ticketTypes.map((ticket: any, idx: number) => (
                   <TableRow key={ticket.id ?? ticket.name ?? idx} className=" ">
                     <TableCell className="font-medium">{ticket.name}</TableCell>
                     <TableCell>${ticket.price}</TableCell>

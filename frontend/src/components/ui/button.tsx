@@ -44,6 +44,8 @@ function Button({
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
+    /** Accepted for backwards compatibility with call sites; rendering is driven by the caller. */
+    isLoading?: boolean
   }) {
   const Comp = asChild ? Slot : "button"
 

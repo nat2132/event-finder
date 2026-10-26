@@ -37,13 +37,10 @@ export function EventReminderButton({
         return;
       }
       
-      // Check if the ID is numeric 
-      const isNumericId = typeof eventId === 'number' || (typeof eventId === 'string' && /^\d+$/.test(eventId));
-      
-      // Pass the event ID only if it's a valid numeric ID
+      // Pass the event ID; the API helper itself only sends numeric IDs
       await createEventReminderNotification(
         token, 
-        isNumericId ? eventId : null, 
+        eventId, 
         eventTitle, 
         eventDate
       );

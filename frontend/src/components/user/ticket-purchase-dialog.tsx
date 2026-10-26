@@ -45,7 +45,6 @@ export function TicketPurchaseDialog({
   eventImage,
   ticketTypes,
   trigger,
-  onPurchase,
 }: TicketPurchaseDialogProps) {
   const [open, setOpen] = useState(false)
   const [selectedTickets, setSelectedTickets] = useState<{ [key: string]: number }>({})
@@ -217,7 +216,7 @@ export function TicketPurchaseDialog({
         try {
           const { createPurchaseFailureNotification } = await import("@/api/notifications");
           await createPurchaseFailureNotification(
-            token, 
+            token ?? "", 
             ticketDetails[0]?.event_id || "unknown", 
             eventTitle,
             error instanceof Error ? error.message : "Payment initialization failed"
