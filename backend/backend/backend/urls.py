@@ -54,9 +54,18 @@ def debug_404_view(request, *args, **kwargs):
     return JsonResponse({'error': 'Not Found', 'path': request.path, 'method': request.method}, status=404)
 
 from django.urls import re_path
+from django.views.static import serve
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+else:
+    # With DEBUG=False, serve user-uploaded files through django.views.static.serve.
+    # NOTE: on free hosting tiers, MEDIA_ROOT lives on ephemeral disk and
+    # uploaded files are lost on redeploy/restart. For production-grade
+    # persistence, switch to object storage (e.g. S3) instead.
+    urlpatterns += [
+        re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    ]
 
 urlpatterns += [
     re_path(r'^.*$', debug_404_view),

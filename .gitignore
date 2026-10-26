@@ -142,6 +142,7 @@ yarn-error.log*
 
 # Python virtual environment
 venv/
+.venv/
 ENV/
 
 # IDE specific files
