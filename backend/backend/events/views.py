@@ -112,7 +112,7 @@ from django.http import JsonResponse
 @permission_classes([AllowAny])
 def ticketmaster_events_proxy(request):
     params = request.GET.dict()
-    api_key = 'YOUR_TICKETMASTER_API_KEY'  # TODO: Replace with env variable or settings
+    api_key = os.getenv("TM_API_KEY") or "YOUR_TICKETMASTER_API_KEY"
     params['apikey'] = api_key
     url = 'https://app.ticketmaster.com/discovery/v2/events.json'
     resp = requests.get(url, params=params)
