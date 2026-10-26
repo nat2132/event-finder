@@ -6,6 +6,7 @@ import { fetchEventById, getEventComments, postEventComment, updateEventComment,
 import type {Event as EventType} from "../../../organizer/event-api";
 import { fetchTicketmasterTicketTypes, fetchTicketmasterEventById, fetchSkiddleEvents} from "@/api/external-events-api";
 import type { ExternalEventCard } from "@/api/external-events-api";
+import { resolveMediaUrl } from "@/config/api";
 import { Calendar, ChevronLeft, MapPin, Save, Share2, Star, Ticket } from "lucide-react"
 import { motion } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
@@ -421,14 +422,7 @@ export default function EventDetailPage() {
                           }
                           
                           // Handle various URL formats
-                          if (imageUrl.startsWith('/media/')) {
-                            return `${window.location.protocol}//${window.location.hostname}:8000${imageUrl}`;
-                          } else if (imageUrl.startsWith('https://127.0.0.1:8000/') || imageUrl.startsWith('https://localhost:8000/')) {
-                            // Replace https with http for localhost to avoid mixed content issues
-                            return imageUrl.replace('https://', 'http://');
-                          }
-                          
-                          return imageUrl || "/placeholder.svg";
+                          return resolveMediaUrl(imageUrl) || "/placeholder.svg";
                         })()
                       }
                       alt={event.organizer_name || event.creator?.name || "Organizer"}
@@ -512,14 +506,7 @@ export default function EventDetailPage() {
                                     }
                                     
                                     // Handle various URL formats
-                                    if (imageUrl.startsWith('/media/')) {
-                                      return `${window.location.protocol}//${window.location.hostname}:8000${imageUrl}`;
-                                    } else if (imageUrl.startsWith('https://127.0.0.1:8000/') || imageUrl.startsWith('https://localhost:8000/')) {
-                                      // Replace https with http for localhost to avoid mixed content issues
-                                      return imageUrl.replace('https://', 'http://');
-                                    }
-                                    
-                                    return imageUrl || "/placeholder.svg";
+                                    return resolveMediaUrl(imageUrl) || "/placeholder.svg";
                                   })()
                                 }
                                 alt={event.organizer_name || event.creator?.name || "Organizer"}

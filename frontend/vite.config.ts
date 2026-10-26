@@ -14,6 +14,9 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': 'http://127.0.0.1:8000',
+      // User-uploaded files are served by Django; proxy them in dev so a
+      // relative media URL (empty VITE_API_BASE_URL) still resolves.
+      '/media': 'http://127.0.0.1:8000',
     },
   },
 })

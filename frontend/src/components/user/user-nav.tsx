@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { resolveMediaUrl } from "@/config/api"
 
 import { useUser, useClerk } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
@@ -36,18 +37,8 @@ export function UserNav() {
   // Get the raw image URL from profile or user
   const rawImageUrl = profile?.profile_image || user?.imageUrl || "/placeholder.svg";
   
-  // Process image URL to handle different formats
-  const displayImage = (() => {
-    // Handle backend media paths
-    if (rawImageUrl.startsWith('/media/')) {
-      return `${window.location.protocol}//${window.location.hostname}:8000${rawImageUrl}`;
-    }
-    // Handle localhost HTTPS URLs (convert to HTTP)
-    if (rawImageUrl.startsWith('https://127.0.0.1:8000/') || rawImageUrl.startsWith('https://localhost:8000/')) {
-      return rawImageUrl.replace('https://', 'http://');
-    }
-    return rawImageUrl;
-  })();
+  // Resolve image URL to handle relative media paths and legacy dev-host URLs
+  const displayImage = resolveMediaUrl(rawImageUrl) ?? "";
   
   const avatarFallback = ((firstName?.[0] || "") + (lastName?.[0] || "")).toUpperCase() || "U";
 

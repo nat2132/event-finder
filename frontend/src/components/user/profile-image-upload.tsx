@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { resolveMediaUrl } from "@/config/api"
 
 interface ProfileImageUploadProps {
   defaultImage?: string
@@ -18,25 +19,13 @@ interface ProfileImageUploadProps {
   onChange?: (file: File | null) => void
 }
 
-export function ProfileImageUpload({ defaultImage, fallback = "AB", className, onChange, onUploadSuccess }: ProfileImageUploadProps & { onUploadSuccess?: () => void }) {
+export function ProfileImageUpload({ defaultImage, fallback = "AB", onChange, onUploadSuccess }: ProfileImageUploadProps & { onUploadSuccess?: () => void }) {
   const [image, setImage] = React.useState<string | null>(defaultImage || null)
   const fileInputRef = React.useRef<HTMLInputElement>(null)
 
   // Process image URL to handle different formats
   const processImageUrl = (url: string | null | undefined): string => {
-    if (!url) return "";
-    
-    // Handle backend media paths
-    if (url.startsWith('/media/')) {
-      return `${window.location.protocol}//${window.location.hostname}:8000${url}`;
-    }
-    
-    // Handle localhost HTTPS URLs (convert to HTTP for mixed content issues)
-    if (url.startsWith('https://127.0.0.1:8000/') || url.startsWith('https://localhost:8000/')) {
-      return url.replace('https://', 'http://');
-    }
-    
-    return url;
+    return resolveMediaUrl(url) ?? "";
   };
 
   // Sync internal image state with defaultImage prop

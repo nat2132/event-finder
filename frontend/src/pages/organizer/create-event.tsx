@@ -23,6 +23,7 @@ const steps = [
 import { toast } from "@/hooks/use-toast";
 import axios from "axios";
 import { fetchEventById } from "./event-api";
+import { buildMediaUrl } from "@/config/api";
 
 interface CreateEventPageProps {
   editEvent?: { 
@@ -271,7 +272,6 @@ export default function CreateEventPage({ editEvent, onClose }: CreateEventPageP
             });
             return;
           }
-          const API_BASE = "http://localhost:8000";
           // Real image upload logic
           let normalizedImage = formData.image;
 
@@ -291,7 +291,7 @@ export default function CreateEventPage({ editEvent, onClose }: CreateEventPageP
                 return;
               }
               // Prepend backend host if URL is relative
-              normalizedImage = uploadedUrl.startsWith('/media/') ? `http://localhost:8000${uploadedUrl}` : uploadedUrl;
+              normalizedImage = uploadedUrl.startsWith('/media/') ? buildMediaUrl(uploadedUrl) : uploadedUrl;
               console.log('DEBUG: normalizedImage after upload:', normalizedImage, 'type:', typeof normalizedImage);
               setFormData(prev => ({ ...prev, image: normalizedImage }));
             } catch (error) {

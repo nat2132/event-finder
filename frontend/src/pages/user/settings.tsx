@@ -4,6 +4,7 @@ import { useUserProfile } from "@/components/UserProfileProvider";
 import { useAuth } from "@clerk/clerk-react";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { resolveMediaUrl } from "@/config/api";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -19,19 +20,7 @@ import { T, useTranslation } from "@/context/translation";
 
 // Helper function to process image URLs
 function processImageUrl(url: string | null | undefined): string | undefined {
-  if (!url) return undefined;
-  
-  // Handle backend media paths
-  if (url.startsWith('/media/')) {
-    return `${window.location.protocol}//${window.location.hostname}:8000${url}`;
-  }
-  
-  // Handle localhost HTTPS URLs (convert to HTTP for mixed content issues)
-  if (url.startsWith('https://127.0.0.1:8000/') || url.startsWith('https://localhost:8000/')) {
-    return url.replace('https://', 'http://');
-  }
-  
-  return url;
+  return resolveMediaUrl(url);
 }
 
 export default function SettingsPage() {

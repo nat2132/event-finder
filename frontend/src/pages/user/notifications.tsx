@@ -553,7 +553,7 @@ export default function NotificationsPage() {
               <div className="bg-slate-50 p-3 rounded">
                 <p className="text-xs font-semibold mb-2">Debug Information</p>
                 <ul className="text-xs list-disc pl-5 space-y-1">
-                  <li>Make sure your Django server is running on http://localhost:8000</li>
+                  <li>Make sure the backend API server is running and reachable</li>
                   <li>Check your browser console for detailed API responses</li>
                   <li>Ensure the notifications app URLs are properly configured in settings</li>
                   <li>Validate that your authentication token is being accepted by the server</li>
@@ -578,7 +578,7 @@ export default function NotificationsPage() {
                       <p className="font-bold">Debug Information:</p>
                       <p>- Try adding some test notifications using the debug button above</p>
                       <p>- Check browser console for detailed error logs</p>
-                      <p>- Verify backend server is running on localhost:8000</p>
+                      <p>- Verify the backend API server is running and reachable</p>
                       <p>- API endpoints tried: /api/user-notifications/ and /api/notifications/user-notifications/</p>
                     </div>
                   )}
@@ -617,7 +617,7 @@ export default function NotificationsPage() {
                       <p className="font-bold">Debug Information:</p>
                       <p>- Try adding some test notifications using the debug button above</p>
                       <p>- Check browser console for detailed error logs</p>
-                      <p>- Verify backend server is running on localhost:8000</p>
+                      <p>- Verify the backend API server is running and reachable</p>
                       <p>- API endpoints tried: /api/user-notifications/ and /api/notifications/user-notifications/</p>
                     </div>
                   )}

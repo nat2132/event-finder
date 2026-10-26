@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { DashboardShell } from "@/components/user/dashboard-shell"
 import { useEffect, useState } from "react"
+import { resolveMediaUrl } from "@/config/api"
 
 
 interface RawTicketData {
@@ -213,13 +214,7 @@ export default function TicketsPage() {
                                 src={
                                   (() => {
                                     let url = ticket.qr_code_url || ticket.qr_code || '';
-                                    if (url.startsWith('/media/')) {
-                                      return `${window.location.protocol}//${window.location.hostname}:8000${url}`;
-                                    }
-                                    if (url.startsWith('https://127.0.0.1:8000/') || url.startsWith('https://localhost:8000/')) {
-                                      return url.replace('https://', 'http://');
-                                    }
-                                    return url;
+                                    return resolveMediaUrl(url) || url;
                                   })()
                                 }
                                     alt="Ticket QR Code"
@@ -323,13 +318,7 @@ export default function TicketsPage() {
                                 src={
                                   (() => {
                                     let url = ticket.qr_code_url || ticket.qr_code || '';
-                                    if (url.startsWith('/media/')) {
-                                      return `${window.location.protocol}//${window.location.hostname}:8000${url}`;
-                                    }
-                                    if (url.startsWith('https://127.0.0.1:8000/') || url.startsWith('https://localhost:8000/')) {
-                                      return url.replace('https://', 'http://');
-                                    }
-                                    return url;
+                                    return resolveMediaUrl(url) || url;
                                   })()
                                 }
                                   alt="Ticket QR Code"
