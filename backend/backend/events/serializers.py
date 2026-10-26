@@ -1,7 +1,44 @@
 from rest_framework import serializers
+import os
+
 from .models import Event
 from tickets.models import Ticket
 from users.models import ClerkUser
+
+# Legacy backend hosts that older code may have baked into stored image URLs.
+LEGACY_MEDIA_HOSTS = (
+    'http://localhost:8000',
+    'https://localhost:8000',
+    'http://127.0.0.1:8000',
+    'https://127.0.0.1:8000',
+)
+
+
+def _to_absolute_media_url(request, url):
+    """
+    Turn a (possibly relative) media path into an absolute URL derived from
+    the incoming request. Falls back to the PUBLIC_API_URL environment
+    variable when no request is available (e.g. background tasks).
+    """
+    if not url:
+        return url
+    # Normalize stale URLs that still point at an old hard-coded dev host.
+    for legacy_host in LEGACY_MEDIA_HOSTS:
+        if url.startswith(legacy_host):
+            url = url[len(legacy_host):]
+            break
+    if url.startswith(('http://', 'https://')):
+        return url
+    if request is not None:
+        try:
+            return request.build_absolute_uri(url)
+        except Exception:
+            pass
+    public_base = os.getenv('PUBLIC_API_URL', '').rstrip('/')
+    if public_base:
+        return f'{public_base}{url}'
+    return url
+
 
 class EventSerializer(serializers.ModelSerializer):
     image = serializers.CharField(required=False, allow_null=True, allow_blank=True)
@@ -84,12 +121,8 @@ class EventSerializer(serializers.ModelSerializer):
             # Get organizer image
             if hasattr(user, 'profile_image') and user.profile_image:
              try:
-                organizer_image = user.profile_image.url
-                # Ensure absolute URL with https://127.0.0.1:8000/
-                if organizer_image and not organizer_image.startswith(('http://', 'https://')):
-                    organizer_image = f'https://127.0.0.1:8000{organizer_image}'
-                elif organizer_image and organizer_image.startswith('http://127.0.0.1:8000'):
-                    organizer_image = organizer_image.replace('http://127.0.0.1:8000', 'https://127.0.0.1:8000')
+                # Derive an absolute URL from the current request.
+                organizer_image = _to_absolute_media_url(request, user.profile_image.url)
              except Exception:
                 organizer_image = None
             
@@ -156,9 +189,8 @@ class EventSerializer(serializers.ModelSerializer):
             if obj.organizer_id and obj.organizer and hasattr(obj.organizer, 'profile_image') and obj.organizer.profile_image:
                 try:
                     image_url = obj.organizer.profile_image.url
-                    # Ensure it's an absolute URL
-                    if image_url and not image_url.startswith(('http://', 'https://')):
-                        image_url = f'https://127.0.0.1:8000{image_url}'
+                    # Ensure it's an absolute URL derived from the request
+                    image_url = _to_absolute_media_url(self.context.get('request'), image_url)
                     return image_url
                 except Exception:
                     pass
