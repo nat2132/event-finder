@@ -1,3 +1,5 @@
+import os
+
 import requests
 import jwt
 from jwt import PyJWKClient
@@ -5,8 +7,12 @@ from django.http import JsonResponse
 from django.utils.deprecation import MiddlewareMixin
 from users.models import ClerkUser
 
-# Set this to your actual Clerk domain
-CLERK_JWKS_URL = "https://tender-sponge-70.clerk.accounts.dev/.well-known/jwks.json"
+# Set this to your actual Clerk domain. Override with the CLERK_JWKS_URL
+# environment variable in production/non-dev Clerk instances.
+CLERK_JWKS_URL = os.getenv(
+    "CLERK_JWKS_URL",
+    "https://tender-sponge-70.clerk.accounts.dev/.well-known/jwks.json",
+)
 
 class ClerkAuthMiddleware(MiddlewareMixin):
     def process_request(self, request):
