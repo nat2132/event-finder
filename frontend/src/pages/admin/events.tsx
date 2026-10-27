@@ -4,6 +4,7 @@ import axios from "axios"
 import { useAuth } from "@clerk/clerk-react"
 import { useBackendUserProfile } from "@/components/use-backend-user-profile"
 import { T, useTranslation } from "@/context/translation"
+import { SafeImage } from "@/components/SafeImage"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -343,8 +344,8 @@ function EventTable({ events, onViewDetails, onEditEvent, onDeleteEvent, canMana
               <TableCell>
                 <div className="flex items-center gap-3">
                   <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-md">
-                    <img
-                      src={event.image || '/placeholder-event.jpg'}
+                    <SafeImage
+                      src={event.image || '/placeholder.svg'}
                       alt={event.title}
                       className="h-full w-full object-cover"
                     />
@@ -428,9 +429,9 @@ function EventDetailsModal({ event, isOpen, onClose }: EventDetailsModalProps) {
           <div className="hidden md:flex md:col-span-2 bg-muted/30 relative">
             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
               {event.image ? (
-                <img 
-                  src={event.image} 
-                  alt={event.title} 
+                <SafeImage
+                  src={event.image}
+                  alt={event.title}
                   className="object-cover object-center w-full h-full"
                 />
               ) : (
@@ -637,9 +638,9 @@ function EditEventModal({ event, isOpen, onClose, onEventUpdate }: EditEventModa
           <div className="hidden md:flex md:col-span-2 bg-muted/30 flex-col">
             <div className="flex-1 p-6 flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 overflow-hidden">
               {event.image ? (
-                <img 
-                  src={event.image} 
-                  alt={event.title} 
+                <SafeImage
+                  src={event.image}
+                  alt={event.title}
                   className="object-cover object-center max-w-full max-h-full rounded-md shadow-md"
                 />
               ) : (

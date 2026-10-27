@@ -10,6 +10,8 @@ import { cn } from "@/lib/utils"
 import { useAuth } from "@clerk/clerk-react"
 import { saveEvent, unsaveEvent } from "@/api/saved-events"
 import { useToast } from "@/hooks/use-toast"
+import { SafeImage } from "@/components/SafeImage"
+import { resolveMediaUrl } from "@/config/api"
 
 interface EventCardProps {
   id: string
@@ -110,7 +112,7 @@ export function EventCard({
       <motion.div whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
         <Card className="overflow-hidden h-full flex flex-col ">
           <div className="aspect-video w-full overflow-hidden relative">
-            <img
+            <SafeImage
               src={image || "/placeholder.svg"}
               alt={title}
               className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
@@ -175,14 +177,10 @@ export function EventCard({
                 <div className="flex items-center">
                   {creator.avatar ? (
                     <div className="flex items-center">
-                      <img 
-                        src={
-                          creator.avatar.startsWith('/media/') 
-                            ? `${window.location.protocol}//${window.location.hostname}:8000${creator.avatar}` 
-                            : creator.avatar
-                        } 
-                        alt={creator.name} 
-                        className="w-4 h-4 rounded-full mr-1 object-cover" 
+                      <img
+                        src={resolveMediaUrl(creator.avatar)}
+                        alt={creator.name}
+                        className="w-4 h-4 rounded-full mr-1 object-cover"
                         onError={(e) => {
                           e.currentTarget.style.display = 'none';
                         }}

@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { DashboardLayout } from "@/components/organizer/dashboard-layout"
+import { SafeImage } from "@/components/SafeImage"
 
 import { useState, useEffect } from "react"
 import { useLocation } from "react-router-dom"
@@ -157,7 +158,7 @@ export default function MyEventsPage() {
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filteredEvents.length === 0 ? (
             <div className="col-span-full flex flex-col items-center justify-center py-16">
-              <img src="/hot_air_balloon.png" alt="No events" className="mb-6 w-40 h-40 opacity-80" />
+              <img src="/hot_air_balloon.svg" alt="No events" className="mb-6 w-40 h-40 opacity-80" />
               <h2 className="text-xl font-semibold mb-2">No events found</h2>
               <p className="mb-6 text-muted-foreground">You haven't created any events yet. Start by creating your first event!</p>
               <Button asChild className=" bg-primary text-primary-foreground">
@@ -177,7 +178,7 @@ export default function MyEventsPage() {
               >
                 <Card className="overflow-hidden ">
                   <div className="relative">
-                    <img src={event.image || "/placeholder.svg"} alt={event.title} className="h-48 w-full object-cover" />
+                    <SafeImage src={event.image || "/placeholder.svg"} alt={event.title} className="h-48 w-full object-cover" />
                         {event.gallery_images && event.gallery_images.length > 0 && (
                           <div className="flex gap-2 px-2 py-2 bg-slate-50 border-t border-slate-200">
                             {event.gallery_images.map((img: string, idx: number) => (
@@ -186,6 +187,7 @@ export default function MyEventsPage() {
                                 src={img}
                                 alt={`Gallery ${idx+1}`}
                                 className="h-12 w-12 object-cover rounded shadow border border-slate-200"
+                                onError={(e) => { e.currentTarget.style.display = "none"; }}
                               />
                             ))}
                           </div>
@@ -261,9 +263,9 @@ export default function MyEventsPage() {
                 <div className="md:col-span-2 relative bg-slate-50 border-r border-slate-200">
                   <div className="h-full overflow-auto">
                     <div className="relative h-72">
-                      <img 
-                        src={selectedEvent.image || "/placeholder.svg"} 
-                        alt={selectedEvent.title} 
+                      <SafeImage
+                        src={selectedEvent.image || "/placeholder.svg"}
+                        alt={selectedEvent.title}
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute top-4 left-4">
@@ -291,6 +293,7 @@ export default function MyEventsPage() {
                               src={img}
                               alt={`Gallery ${idx+1}`}
                               className="aspect-square w-full object-cover rounded-md shadow-sm border border-slate-200 hover:opacity-90 transition-opacity cursor-pointer"
+                              onError={(e) => { e.currentTarget.style.display = "none"; }}
                             />
                           ))}
                         </div>

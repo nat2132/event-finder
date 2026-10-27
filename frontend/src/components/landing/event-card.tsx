@@ -2,6 +2,7 @@ import { Calendar, MapPin, Users } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { SafeImage } from "@/components/SafeImage"
 
 interface EventCardProps {
   title: string
@@ -16,7 +17,7 @@ export function EventCard({ title, date, location, image, attendees, category }:
   return (
     <Card className="overflow-hidden transition-all hover:shadow-lg">
       <div className="relative h-48 w-full">
-        <img src={image || "/placeholder.svg"} alt={title} className="object-cover w-full h-full" />
+        <SafeImage src={image || "/placeholder.svg"} alt={title} className="object-cover w-full h-full" />
         <Badge className="absolute top-4 right-4">{category}</Badge>
       </div>
       <CardHeader>

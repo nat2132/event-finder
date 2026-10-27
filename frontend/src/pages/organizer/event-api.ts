@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { resolveMediaUrl } from "@/config/api";
 
 export async function updateEventTickets(eventId: string, tickets: { name: string; quantity: number }[], token: string): Promise<any> {
   const res = await axios.post(`/api/events/${eventId}/update_tickets/`, { tickets }, {
@@ -116,11 +117,15 @@ export async function fetchEvents(token?: string, isDiscover: boolean = false): 
   const data = res.data;
   if (data.results) {
     data.results = data.results.map((event: Event) => {
-      // Fix organizer image URLs if they start with /media/
+      // Normalize image URLs: relative /media/... and legacy dev hosts are
+      // rewritten against the configured API base (no hard-coded host).
       if (event.organizer_image && event.organizer_image.startsWith('/media/')) {
-        event.organizer_image = `${window.location.protocol}//${window.location.hostname}:8000${event.organizer_image}`;
+        event.organizer_image = resolveMediaUrl(event.organizer_image) ?? event.organizer_image;
       }
-      
+      if (event.image) {
+        event.image = resolveMediaUrl(event.image) ?? event.image;
+      }
+
       // Ensure creator object is properly initialized
       if (!event.creator) {
         event.creator = {
@@ -128,7 +133,7 @@ export async function fetchEvents(token?: string, isDiscover: boolean = false): 
           avatar: event.organizer_image || "/placeholder.svg"
         };
       } else if (event.creator.avatar && event.creator.avatar.startsWith('/media/')) {
-        event.creator.avatar = `${window.location.protocol}//${window.location.hostname}:8000${event.creator.avatar}`;
+        event.creator.avatar = resolveMediaUrl(event.creator.avatar) ?? event.creator.avatar;
       }
       
       // Format date properly for display
@@ -155,11 +160,15 @@ export async function fetchEventById(eventId: string, token?: string): Promise<E
   const res = await axios.get(`/api/events/${eventId}/`, token ? { headers: { Authorization: `Bearer ${token}` } } : {});
   const event = res.data as Event;
   
-  // Fix organizer image URLs if they start with /media/
+  // Fix image URLs: relative /media/... and legacy dev hosts are rewritten
+  // against the configured API base (no hard-coded host).
   if (event.organizer_image && event.organizer_image.startsWith('/media/')) {
-    event.organizer_image = `${window.location.protocol}//${window.location.hostname}:8000${event.organizer_image}`;
+    event.organizer_image = resolveMediaUrl(event.organizer_image) ?? event.organizer_image;
   }
-  
+  if (event.image) {
+    event.image = resolveMediaUrl(event.image) ?? event.image;
+  }
+
   // Ensure creator object is properly initialized
   if (!event.creator) {
     event.creator = {
@@ -167,7 +176,7 @@ export async function fetchEventById(eventId: string, token?: string): Promise<E
       avatar: event.organizer_image || "/placeholder.svg"
     };
   } else if (event.creator.avatar && event.creator.avatar.startsWith('/media/')) {
-    event.creator.avatar = `${window.location.protocol}//${window.location.hostname}:8000${event.creator.avatar}`;
+    event.creator.avatar = resolveMediaUrl(event.creator.avatar) ?? event.creator.avatar;
   }
   
   // Format date properly for display

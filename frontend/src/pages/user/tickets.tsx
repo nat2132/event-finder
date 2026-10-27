@@ -102,11 +102,11 @@ export default function TicketsPage() {
           // Handle QR code URL - often comes as a media URL
           if (ticket.qr_code && typeof ticket.qr_code === 'string') {
             normalized.qr_code_url = ticket.qr_code.startsWith('/media/')
-              ? `${window.location.protocol}//${window.location.hostname}:8000${ticket.qr_code}`
+              ? (resolveMediaUrl(ticket.qr_code) || ticket.qr_code)
               : ticket.qr_code;
           } else if (ticket.qr_code_url && typeof ticket.qr_code_url === 'string') {
             normalized.qr_code_url = ticket.qr_code_url.startsWith('/media/')
-              ? `${window.location.protocol}//${window.location.hostname}:8000${ticket.qr_code_url}`
+              ? (resolveMediaUrl(ticket.qr_code_url) || ticket.qr_code_url)
               : ticket.qr_code_url;
           }
           

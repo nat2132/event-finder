@@ -15,6 +15,7 @@ import type {Event as EventType } from "./event-api";
 import { fetchOrganizerDashboardStats } from "./dashboard-api";
 import type { OrganizerDashboardStats } from "./dashboard-api";
 import { useAuth } from "@clerk/clerk-react";
+import { SafeImage } from "@/components/SafeImage";
 
 
 export default function Home() {
@@ -248,7 +249,7 @@ export default function Home() {
                   ) : (
                     recentEvents.map((event) => (
                       <div key={event.id} className="flex items-center gap-4 rounded-lg border p-3">
-                        <img
+                        <SafeImage
                           src={event.image || "/placeholder.svg"}
                           alt={event.title}
                           className="h-16 w-24 rounded-md object-cover"

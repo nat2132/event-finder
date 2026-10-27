@@ -9,6 +9,7 @@ import type { ExternalEventCard } from "@/api/external-events-api";
 import { resolveMediaUrl } from "@/config/api";
 import { Calendar, ChevronLeft, MapPin, Save, Share2, Star, Ticket } from "lucide-react"
 import { motion } from "framer-motion"
+import { SafeImage } from "@/components/SafeImage";
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -364,7 +365,7 @@ export default function EventDetailPage() {
           <div className="grid gap-6 lg:grid-cols-3">
             <div className="lg:col-span-2 space-y-6">
               <div className="relative rounded-lg overflow-hidden">
-                <img
+                <SafeImage
                   src={event.image || "/placeholder.svg"}
                   alt={event.title || 'Event image'}
                   className="w-full aspect-video object-cover"
