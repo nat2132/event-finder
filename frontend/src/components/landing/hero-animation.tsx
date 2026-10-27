@@ -45,7 +45,7 @@ export function HeroAnimation() {
     <div ref={containerRef} className="relative h-[400px] w-[400px] md:h-[500px] md:w-[500px]">
       <div className="event-card absolute left-0 top-0 z-10 h-64 w-48 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 ease-out">
         <img
-          src="./festival.jpg"
+          src="/festival.svg"
           alt="Music Festival"
           width={192}
           height={256}
@@ -58,7 +58,7 @@ export function HeroAnimation() {
       </div>
       <div className="event-card absolute left-20 top-20 z-20 h-64 w-48 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 ease-out">
         <img
-          src="/tech.jpg"
+          src="/tech.svg"
           alt="Tech Conference"
           width={192}
           height={256}
@@ -71,7 +71,7 @@ export function HeroAnimation() {
       </div>
       <div className="event-card absolute left-40 top-40 z-30 h-64 w-48 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 ease-out">
         <img
-          src="./food.jpg"
+          src="/food.svg"
           alt="Food Festival"
           width={192}
           height={256}
@@ -84,7 +84,7 @@ export function HeroAnimation() {
       </div>
       <div className="event-card absolute right-20 top-20 z-40 h-64 w-48 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 ease-out">
         <img
-          src="./sport.jpg"
+          src="/sport.svg"
           alt="Sports Tournament"
           width={192}
           height={256}
@@ -97,7 +97,7 @@ export function HeroAnimation() {
       </div>
       <div className="event-card absolute right-0 top-0 z-50 h-64 w-48 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 ease-out">
         <img
-          src="./art.jpg"
+          src="/art.svg"
           alt="Art Exhibition"
           width={192}
           height={256}

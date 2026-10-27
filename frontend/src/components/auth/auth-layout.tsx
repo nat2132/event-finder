@@ -86,7 +86,7 @@ export function AuthLayout({ children, title, description, showRightSide }: Auth
             <div className="floating absolute bottom-8 right-8 max-w-[240px] rounded-lg bg-background/10 p-4 backdrop-blur-sm">
               <div className="flex items-center space-x-3">
                 <div className="h-[40px] w-[40px] overflow-hidden rounded-full flex bg-blue-300">
-                  <img src="/person2.jpg" alt="User avatar" width={40} height={40} className="object-cover" />
+                  <img src="/person2.svg" alt="User avatar" width={40} height={40} className="object-cover" />
                 </div>
                 <div>
                   <p className="text-sm font-medium">Sarah J.</p>

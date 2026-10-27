@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180" role="img" aria-label="Hot air balloon illustration">
+  <defs>
+    <linearGradient id="balloon" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d97706"/>
+      <stop offset="1" stop-color="#b45309"/>
+    </linearGradient>
+  </defs>
+  <g opacity="0.18" stroke="#64748b" stroke-width="3" stroke-linecap="round" fill="none">
+    <path d="M30 18c2 22-6 34 0 48M52 10c2 22-6 40 0 56"/>
+  </g>
+  <path d="M90 16a54 54 0 0 1 54 54c0 32-30 52-40 66h-28c-10-14-40-34-40-66a54 54 0 0 1 54-54Z" fill="url(#balloon)"/>
+  <path d="M90 16a54 54 0 0 1 0 108 54 54 0 0 1 0-108Zm-18 4c10 32 10 76 0 112m36-112c-10 32-10 76 0 112" fill="none" stroke="#fbbf24" stroke-width="3" stroke-opacity="0.55"/>
+  <g stroke="#fbbf24" stroke-width="3" stroke-linecap="round" fill="none">
+    <path d="M82 136l-6 16M98 136l6 16"/>
+  </g>
+  <path d="M74 154h32a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4h-32a4 4 0 0 1-4-4v-10a4 4 0 0 1 4-4Z" fill="#78350f"/>
+  <g opacity="0.2" stroke="#64748b" stroke-width="3" stroke-linecap="round" fill="none">
+    <path d="M132 60c10 8 18 8 26 2M140 44c8 6 14 6 20 1"/>
+  </g>
+</svg>

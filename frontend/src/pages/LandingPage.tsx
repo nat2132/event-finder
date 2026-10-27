@@ -107,7 +107,7 @@ export default function LandingPage() {
                     {[1, 2, 3, 4].map((i) => (
                       <div key={i} className="h-8 w-8 rounded-full border-2 border-background overflow-hidden">
                         <img
-                          src={`/person${i}.jpg`}
+                          src={`/person${i}.svg`}
                           alt={`Person ${i}`}
                           width={32}
                           height={32}
@@ -292,7 +292,7 @@ export default function LandingPage() {
                 title="Tech Conference 2023"
                 date="Oct 15-17, 2023"
                 location="San Francisco, CA"
-                image="./tech_conf.jpg"
+                image="/tech_conf.svg"
                 attendees={1240}
                 category="Technology"
               />
@@ -300,7 +300,7 @@ export default function LandingPage() {
                 title="Summer Music Festival"
                 date="Aug 5-7, 2023"
                 location="Austin, TX"
-                image="./music_festival.jpg"
+                image="/music_festival.svg"
                 attendees={5000}
                 category="Music"
               />
@@ -308,7 +308,7 @@ export default function LandingPage() {
                 title="Food & Wine Expo"
                 date="Sep 22-24, 2023"
                 location="Chicago, IL"
-                image="/food_wine.jpg"
+                image="/food_wine.svg"
                 attendees={3200}
                 category="Food & Drink"
               />
@@ -342,21 +342,21 @@ export default function LandingPage() {
                 quote="Eventify has completely changed how I discover local events. I've made so many new friends through the platform!"
                 author="Sarah Johnson"
                 role="Regular Attendee"
-                avatar="/person1.jpg"
+                avatar="/person1.svg"
                 rating={5}
               />
               <TestimonialCard
                 quote="As an event organizer, the tools Eventify provides have made my job so much easier. The ticketing system is flawless."
                 author="Michael Chen"
                 role="Event Organizer"
-                avatar="/person3.jpg"
+                avatar="/person3.svg"
                 rating={5}
               />
               <TestimonialCard
                 quote="I've discovered events I never would have found otherwise. The recommendation engine is spot on!"
                 author="Jessica Williams"
                 role="Music Enthusiast"
-                avatar="/person2.jpg"
+                avatar="/person2.svg"
                 rating={4}
               />
             </div>

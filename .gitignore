@@ -112,8 +112,7 @@ out/
 .nuxt-prod/
 
 # Gatsby
-.cache/
-public
+.cache/gatsby/
 
 # Vercel
 .vercel
