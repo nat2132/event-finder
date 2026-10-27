@@ -456,7 +456,7 @@ function EventDetailsModal({ event, isOpen, onClose }: EventDetailsModalProps) {
               <div className="flex items-center md:hidden mt-2 mb-4">
                 <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md mr-3">
                   <img
-                    src={event.image || '/placeholder-event.jpg'}
+                    src={event.image || '/placeholder.svg'}
                     alt={event.title}
                     className="h-full w-full object-cover"
                   />
